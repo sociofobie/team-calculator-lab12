@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="ru">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Практическая работа №12 — Git и GitHub</title>
+<style>
+*{box-sizing:border-box}html{scroll-padding-top:1rem}body{max-width:900px;margin:0 auto;padding:32px 26px 72px;color:#202b2a;background:#fff;font:17px/1.56 "Segoe UI",sans-serif}header{padding-bottom:18px;border-bottom:2px solid #23493f}h1,h2,h3{line-height:1.22;text-wrap:balance}h1{font-size:clamp(2rem,5vw,3.1rem);margin:.35em 0}h2{font-size:1.85rem;margin:0 0 .5em}h3{font-size:1.22rem;margin:1.6em 0 .5em}p,ul,ol,dl,figure{margin:.65em 0}section{padding-top:36px;margin-top:30px;border-top:1px solid #bacbc6}nav{display:flex;flex-wrap:wrap;gap:8px 24px;margin-top:1.2em}a{color:#075e4b;text-underline-offset:3px}a:focus-visible{outline:3px solid #9c5104;outline-offset:3px}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#f1f5f3;padding:14px 18px;margin:.55em 0 1em;border-left:3px solid #4b7566;line-height:1.45}code,pre{font-family:Consolas,monospace;font-size:.91em}pre code{font-size:1em}dt{font-weight:650;margin-top:1em}dd{margin:.1em 0 .6em}table{width:100%;border-collapse:collapse;margin:.8em 0}th,td{text-align:left;vertical-align:top;border-bottom:1px solid #bdcbc6;padding:.5em .55em}th{background:#eef3ef}figcaption{font-size:.9em;color:#475651}img{display:block;width:100%;height:auto}figure{margin:1.2em 0}li+li{margin-top:.33em}.small{color:#475651;font-size:.93em}@media(max-width:560px){body{padding:16px 16px 42px}h2{font-size:1.55rem}table{font-size:.88em}td,th{padding:.45em .3em}pre{padding:10px}nav{gap:8px 16px}}@media print{body{max-width:none;padding:0;font:11pt/1.35 sans-serif}nav,.back{display:none}section{break-before:page;border:0;margin:0;padding:0}pre,figure,tr,dt{break-inside:avoid}h2,h3,dt{break-after:avoid}a{color:inherit}pre{font-size:9pt}img{max-height:11cm;object-fit:contain}}
+</style>
+<main><section id="lab12">
+<h2>№12. Ветки и pull request в GitHub</h2>
+<p>В проекте <b>team-calculator-lab12</b> каждая из трёх арифметических функций разработана в отдельной ветке. Работа выполнена индивидуально из трёх клонов под аккаунтом <b>sociofobie</b>. Все три запроса на слияние приняты в <code>main</code>. Отдельного ревью одногруппниками не проводилось.</p>
+<p><a href="https://github.com/sociofobie/team-calculator-lab12">Репозиторий на GitHub</a> · <a href="https://github.com/sociofobie/team-calculator-lab12/pulls?q=is%3Apr+is%3Amerged">Три слитых pull request</a>. Для просмотра в браузере нужен вход в аккаунт с доступом к приватному репозиторию.</p>
+<table><thead><tr><th>Роль</th><th>Ветка</th><th>Функция</th><th>Коммит</th><th>Слияние</th></tr></thead><tbody><tr><td>1</td><td><code>feature-add</code></td><td>Сложение</td><td><code>2eb13e5</code></td><td><a href="https://github.com/sociofobie/team-calculator-lab12/pull/1">PR #1</a></td></tr><tr><td>2</td><td><code>feature-subtract</code></td><td>Вычитание</td><td><code>9e4ea61</code></td><td><a href="https://github.com/sociofobie/team-calculator-lab12/pull/2">PR #2</a></td></tr><tr><td>3</td><td><code>feature-multiply</code></td><td>Умножение</td><td><code>065463f</code></td><td><a href="https://github.com/sociofobie/team-calculator-lab12/pull/3">PR #3</a></td></tr></tbody></table>
+<h3>Как выполнена работа</h3>
+<ol>
+<li>Создан приватный репозиторий. Команда <code>git clone https://github.com/sociofobie/team-calculator-lab12.git role1</code> создала первый клон. Файл <code>hello.py</code> добавлен через <code>git add hello.py</code>, зафиксирован через <code>git commit</code> и отправлен командой <code>git push -u origin main</code>. После этого созданы клоны <code>role2</code> и <code>role3</code>.</li>
+<li>В каждом клоне от начального коммита создана отдельная ветка. Пример для вычитания, выполненный из второй копии:</li>
+</ol>
+<pre><code>git switch -c feature-subtract
+# После написания subtract.py
+python -B -c "from subtract import subtract; assert subtract(2,3) == -1"
+git add subtract.py
+git commit -m "Реализовано вычитание"
+git push -u origin feature-subtract</code></pre>
+<ol start="3">
+<li>На каждую опубликованную ветку открыт запрос в <code>main</code> с помощью <code>gh pr create</code>. До слияния изменения просмотрены через <code>gh pr diff</code>. Команда <code>gh pr merge 2 --merge</code>, например, объединила ветку вычитания с основной на GitHub. Каждая ветка добавляла отдельный файл, конфликтов не возникло.</li>
+<li>Во всех трёх копиях выполнены <code>git switch main</code> и <code>git pull --ff-only</code>. В истории видны три коммита слияния; исходные ветки сохранены. Затем в репозиторий добавлены этот отчёт и снимки вывода команд.</li>
+</ol>
+<figure><a href="branches.png"><img src="branches.png" alt="Список веток, адрес origin на GitHub и три слитых pull request"></a><figcaption>Общий репозиторий, ветки на GitHub и принятые запросы.</figcaption></figure>
+<figure><a href="merges.png"><img src="merges.png" alt="Граф трёх веток и счётчик трёх слияний"></a><figcaption>Граф сразу после слияния третьего PR, до добавления отчёта.</figcaption></figure>
+<h3>Что показать преподавателю</h3>
+<p>Откройте <a href="https://github.com/sociofobie/team-calculator-lab12/pull/2/files">Files changed в PR #2</a> и покажите две строки в <code>subtract.py</code>. На вкладке Conversation видны исходная ветка, направление слияния и статус <b>Merged</b>. Затем откройте PowerShell в папке рабочего клона и выполните:</p>
+<pre><code>git status --short --branch
+git remote -v
+git branch -a
+git log --graph --decorate --oneline --all
+git show origin/feature-subtract -- subtract.py
+git rev-list --count --merges main
+python -B -c "from add import add; from subtract import subtract; from multiply import multiply; print(add(2,3), subtract(7,4), multiply(3,4))"</code></pre>
+<p>Счётчик слияний выдаёт <code>3</code>, калькулятор выводит <code>5 3 12</code>. Для демонстрации клонирования на новом компьютере с доступом к репозиторию:</p>
+<pre><code>git clone https://github.com/sociofobie/team-calculator-lab12.git demo
+cd demo
+git log --oneline --merges</code></pre>
+<h3>Что отвечать на защите</h3>
+<dl>
+<dt>Для чего нужна система контроля версий?</dt><dd>«Git сохраняет снимки проекта и историю изменений. Я могу узнать, в каком коммите появилась функция, сравнить две версии, восстановить нужное состояние и объединить работу нескольких веток».</dd>
+<dt>Чем отличаются локальный и удалённый репозитории?</dt><dd>«В рабочем клоне я редактирую файлы и делаю коммиты. Общий репозиторий служит точкой обмена. Имя <code>origin</code> — ссылка на него. Здесь origin указывает на приватный репозиторий GitHub. <code>clone</code> получает копию, <code>push</code> отправляет коммиты, <code>pull</code> получает и интегрирует изменения».</dd>
+<dt>Зачем нужны ветки?</dt><dd>«Ветка — перемещаемый указатель на коммит. <code>git switch -c feature-add</code> создаёт ветку и переключает на неё. В ней можно разработать и проверить сложение, пока основная ветка остаётся на своей версии».</dd>
+<dt>Как выполняется слияние и что делать при конфликте?</dt><dd>«Перехожу в принимающую ветку командой <code>git switch main</code> и запускаю <code>git merge имя-ветки</code>. Если Git сообщает конфликт, смотрю <code>git status</code>, согласую итоговый текст в файле, удаляю маркеры конфликта, проверяю результат, выполняю <code>git add</code> для исправленного файла и <code>git commit</code>».</dd>
+<dt>Что такое pull request?</dt><dd>«Это запрос на включение одной ветки в другую на GitHub или аналогичном сервисе. Автор отправляет ветку через <code>push</code>, открывает PR в <code>main</code>, коллега смотрит разницу, обсуждает изменения и одобряет слияние. В локальной работе я показал само слияние командой <code>git merge</code>».</dd>
+<dt>Как вести историю коммитов?</dt><dd>«Один коммит должен содержать одно законченное изменение. Перед коммитом проверяю <code>git status</code> и <code>git diff --staged</code>. По сообщению должно быть понятно, что изменилось. Здесь коммит “Реализовано вычитание” добавляет один модуль <code>subtract.py</code>».</dd>
+</dl>
+</section>
+</main>
+</html>
